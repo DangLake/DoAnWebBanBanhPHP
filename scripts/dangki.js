@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   
   function validateForm() {
+    
     var name = document.getElementById("nameInput").value.trim();
     var email = document.getElementById("emailInput").value.trim();
     var phone = document.getElementById("phoneInput").value.trim();
@@ -41,18 +42,10 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("phoneErrorMessage").textContent = "";
     }
   
-    // Kiểm tra mật khẩu
-    if (!validatePassword(password)) {
-      document.getElementById("passwordErrorMessage").textContent =
-        "Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt.";
-      isValid = false;
-    } else {
-      document.getElementById("passwordErrorMessage").textContent = "";
-    }
-  
     if (isValid) {
       var xhr = new XMLHttpRequest();
       xhr.open("POST", "dangki.php", true);
+      console.log(xhr);
       xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
@@ -77,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
               alert("Lỗi xử lý dữ liệu: " + e.message);
             }
           } else {
-            alert("Lỗi HTTP: " + xhr.status);
+            alert("Lỗi HTTP:??? " + xhr.status);
           }
         }
       };

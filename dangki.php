@@ -1,8 +1,8 @@
 <?php
 include './config.php';
 header('Content-Type: application/json; charset=utf-8');
-error_reporting(0);
-ini_set('display_errors', 0);
+// error_reporting(0);
+// ini_set('display_errors', 0);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         // Thêm người dùng mới vào cơ sở dữ liệu
-        $stmt = $conn->prepare("INSERT INTO users (username, phone, email, password, role) VALUES (:name, :phone, :email, :password, 'customer')");
+        $stmt = $conn->prepare("INSERT INTO users (username, phone, email, password, role) VALUES (:name, :phone, :email, :password, '1')");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':phone', $phone);
         $stmt->bindParam(':email', $email);
