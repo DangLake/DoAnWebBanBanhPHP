@@ -42,9 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="vi">
 
