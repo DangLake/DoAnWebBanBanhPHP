@@ -117,48 +117,6 @@
     background-color: #e6892d;
 }
 
-/* Social login */
-.social-login {
-    margin-top: 30px;
-    text-align: center;
-}
-
-.social-login h5 {
-    margin-bottom: 15px;
-    font-size: 16px;
-    color: #555;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.social-login-btn {
-    display: inline-block;
-    width: 48%;
-    margin: 5px 1%;
-    padding: 10px 0;
-    font-size: 16px;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.social-login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.facebook-btn {
-    background-color: #3b5998;
-    color: #fff;
-}
-
-.google-btn {
-    background-color: #db4a39;
-    color: #fff;
-}
-
 /* Responsive */
 @media (max-width: 600px) {
     .checkout {

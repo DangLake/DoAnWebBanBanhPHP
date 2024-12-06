@@ -10,28 +10,41 @@ if (isset($_GET['query'])) {
     $query = trim($_GET['query']); // Loại bỏ khoảng trắng
     $query = htmlspecialchars($query, ENT_QUOTES, 'UTF-8'); // Bảo mật chống XSS
 
-    // Câu lệnh SQL tìm kiếm tất cả sản phẩm chứa từ khóa
+    // Tách từ khóa thành các từ
+    $keywords = explode(" ", $query);
+    
+    // Tạo câu SQL với nhiều điều kiện LIKE
     $sql = "SELECT p.*, pi.image 
             FROM products p 
             LEFT JOIN product_images pi ON p.id = pi.product_id 
-            WHERE p.name LIKE :query 
-            GROUP BY p.id"; // Lấy sản phẩm với hình ảnh đầu tiên
+            WHERE ";
+    $conditions = [];
+    foreach ($keywords as $key => $word) {
+        $conditions[] = "p.name LIKE :keyword{$key}";
+    }
+    $sql .= implode(" AND ", $conditions); // Kết hợp các điều kiện với "AND"
+    $sql .= " GROUP BY p.id"; // Lấy sản phẩm với hình ảnh đầu tiên
 
-    // Thêm dấu `%` để tìm từ khóa ở bất kỳ vị trí nào
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['query' => '%' . $query . '%']);
+
+    // Gán giá trị cho từng từ khóa
+    foreach ($keywords as $key => $word) {
+        $stmt->bindValue(":keyword{$key}", '%' . $word . '%', PDO::PARAM_STR);
+    }
+
+    $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Hiển thị kết quả
     echo "<div class='search-results'>";
     if ($result) {
-        echo "<h3>Kết quả tìm kiếm cho: <em>" . $query . "</em></h3>";
+        echo "<h3>Kết quả tìm kiếm cho: <em>" . htmlspecialchars($query, ENT_QUOTES, 'UTF-8') . "</em></h3>";
         echo "<div class='product-list'>";
         foreach ($result as $row) {
             $image = $row['image'] ? $row['image'] : 'default-image.jpg'; // Ảnh mặc định nếu không có
             echo "<div class='product-item'>
-                    <img src='" . $image . "' alt='" . $row['name'] . "'>
-                    <h4>" . $row['name'] . "</h4>
+                    <img src='" . $image . "' alt='" . htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') . "'>
+                    <h4>" . htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') . "</h4>
                     <p>" . number_format($row['price'], 2) . " VND</p>
                     <a href='banh.php?product_id=" . $row['id'] . "' class='btn'>Xem chi tiết</a>
                 </div>";

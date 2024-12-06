@@ -43,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } else {
             $emailError = 'Email không tồn tại.';
+            
         }
     }
 }
@@ -80,16 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <button type="button" class="newcreat-btn" onclick="dangki()">Tạo tài khoản</button>
                 </div>
             </form>
-            <div class="social-login">
-            <form id="socialLoginForm">
-                <button type="button" class="social-login-btn facebook-btn" onclick="loginWithFacebook()">
-                    Đăng nhập bằng Facebook
-                </button>
-                <button type="button" class="social-login-btn google-btn" onclick="loginWithGoogle()">
-                    Đăng nhập bằng Google
-                </button>
-            </form>
-        </div>
         </div>
     </section>
 
@@ -108,7 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             var matkhau = matkhauInput.value.trim();
             var isValid = true;
 
-            // Kiểm tra rỗng
             if (!email) {
                 emailErrorMessage.textContent = "Email không được để trống.";
                 isValid = false;
