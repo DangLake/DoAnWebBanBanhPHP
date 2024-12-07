@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Kiểm tra vai trò và điều hướng
                 if ($user['role'] == 0) {
                     // Admin
+                    session_unset(); // Hủy tất cả session
+                    session_destroy(); // Hủy session
+
                     echo '<script>alert("Đăng nhập thành công với vai trò Admin!"); window.location.href = "./admin/admin.php";</script>';
                 } else {
                     // User
