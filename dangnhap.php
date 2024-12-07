@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     alert("Mật khẩu không được để trống.");
                     isValid = false;
                 }
-
+//dfgdfgdfgdfg
                 if (!isValid) {
                     event.preventDefault();
                 }
