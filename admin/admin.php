@@ -131,6 +131,7 @@ $category_stmt = $conn->query($category_sql);
                 <ul>
                     <li><a href="./admin.php">Bánh</a></li>
                     <li><a href="./cata.php">Loại bánh</a></li>
+                    <li><a href="./user.php">Người dùng</a></li>
                 </ul>
             </nav>
         </aside>
@@ -199,8 +200,8 @@ $category_stmt = $conn->query($category_sql);
                                         <td>{$row['price']} VNĐ</td>
                                         <td>{$row['category_name']}</td>
                                      <td>
-                             <button class='btn' onclick='editProduct({$row["id"]}, \"" . addslashes($row["product_name"]) . "\", {$row["price"]}, {$row["category_id"]})'>Edit</button>
-                            <a href='admin.php?delete={$row["id"]}' class='btn' onclick='return confirm(\"Bạn có chắc chắn muốn xóa sản phẩm này?\")'>Delete</a>
+                             <button class='btn' onclick='editProduct({$row["id"]}, \"" . addslashes($row["product_name"]) . "\", {$row["price"]}, {$row["category_id"]})'>Sửa</button>
+                            <a href='admin.php?delete={$row["id"]}' class='btn' onclick='return confirm(\"Bạn có chắc chắn muốn xóa sản phẩm này?\")'>Xóa</a>
             </td>
         </tr>";
     }
