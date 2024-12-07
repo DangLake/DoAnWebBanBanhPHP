@@ -5,21 +5,39 @@ require('../config.php');
 // Kết nối cơ sở dữ liệu
 $conn = connectDatabase();
 
+// Hàm kiểm tra trùng tên loại bánh
+function isDuplicateCategoryName($conn, $category_name, $category_id = null) {
+    $sql = "SELECT COUNT(*) FROM categories WHERE name = :category_name";
+    if ($category_id !== null) {
+        $sql .= " AND id != :category_id";
+    }
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':category_name', $category_name);
+    if ($category_id !== null) {
+        $stmt->bindParam(':category_id', $category_id);
+    }
+    $stmt->execute();
+    return $stmt->fetchColumn() > 0;
+}
+
 // Xử lý thêm loại bánh
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_category'])) {
-    $category_name = $_POST['category_name'];
+    $category_name = trim($_POST['category_name']);
 
-    try {
-        $sql = "INSERT INTO categories (name) VALUES (:category_name)";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':category_name', $category_name);
-        $stmt->execute();
+    if (isDuplicateCategoryName($conn, $category_name)) {
+        echo '<script>alert("Loại bánh đã tồn tại");</script>';
+    } else {
+        try {
+            $sql = "INSERT INTO categories (name) VALUES (:category_name)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':category_name', $category_name);
+            $stmt->execute();
 
-        // Chuyển hướng về trang quản lý loại bánh sau khi thêm thành công
-        header("Location: cata.php");
-        exit();
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+            header("Location: cata.php");
+            exit();
+        } catch (PDOException $e) {
+            $error_message = "Error: " . $e->getMessage();
+        }
     }
 }
 
@@ -36,26 +54,30 @@ if (isset($_GET['delete'])) {
         header("Location: cata.php");
         exit();
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        $error_message = "Error: " . $e->getMessage();
     }
 }
 
 // Xử lý chỉnh sửa loại bánh
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_category'])) {
     $category_id = $_POST['category_id'];
-    $category_name = $_POST['category_name'];
+    $category_name = trim($_POST['category_name']);
 
-    try {
-        $sql = "UPDATE categories SET name = :category_name WHERE id = :category_id";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':category_name', $category_name);
-        $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
-        $stmt->execute();
+    if (isDuplicateCategoryName($conn, $category_name, $category_id)) {
+        echo '<script>alert("Loại bánh đã tồn tại");</script>';
+    } else {
+        try {
+            $sql = "UPDATE categories SET name = :category_name WHERE id = :category_id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':category_name', $category_name);
+            $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
+            $stmt->execute();
 
-        header("Location: cata.php");
-        exit();
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+            header("Location: cata.php");
+            exit();
+        } catch (PDOException $e) {
+            $error_message = "Error: " . $e->getMessage();
+        }
     }
 }
 
@@ -65,7 +87,7 @@ try {
     $stmt = $conn->query($sql);
     $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    $error_message = "Error: " . $e->getMessage();
 }
 ?>
 
@@ -96,6 +118,11 @@ try {
             <section id="categories">
                 <h1>Quản Lý Loại Bánh</h1>
 
+                <!-- Thông báo lỗi -->
+                <?php if (!empty($error_message)): ?>
+                    <div class="error-message"><?php echo htmlspecialchars($error_message); ?></div>
+                <?php endif; ?>
+
                 <!-- Form thêm loại bánh -->
                 <form action="cata.php" method="POST">
                     <label for="category_name">Tên Loại Bánh:</label>
@@ -103,7 +130,7 @@ try {
                     <button type="submit" name="add_category" class="btn">Thêm Loại Bánh</button>
                 </form>
 
-                <!-- Form chỉnh sửa loại bánh (ẩn khi không cần chỉnh sửa) -->
+                <!-- Form chỉnh sửa loại bánh -->
                 <div id="edit-form" style="display:none;">
                     <h3>Chỉnh Sửa Loại Bánh</h3>
                     <form action="cata.php" method="POST">
