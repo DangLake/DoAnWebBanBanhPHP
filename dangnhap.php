@@ -38,10 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Kiểm tra vai trò và điều hướng
                 if ($user['role'] == 0) {
                     // Admin
-                    session_unset(); 
-                    session_destroy(); 
+                    session_unset(); // Hủy tất cả session
+                    session_destroy(); // Hủy session
 
-                 } else {
+                    echo '<script>alert("Đăng nhập thành công với vai trò Admin!"); window.location.href = "./admin/admin.php";</script>';
+                } else {
                     // User
                     echo '<script>alert("Đăng nhập thành công!"); window.location.href = "index.php";</script>';
                 }
@@ -113,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     alert("Mật khẩu không được để trống.");
                     isValid = false;
                 }
-
+//dfgdfgdfgdfg
                 if (!isValid) {
                     event.preventDefault();
                 }
