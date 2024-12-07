@@ -5,39 +5,43 @@ require('../config.php');
 // Kết nối cơ sở dữ liệu
 $conn = connectDatabase();
 
+// Hàm kiểm tra trùng tên sản phẩm
+function isDuplicateProductName($conn, $product_name, $product_id = null) {
+    $sql = "SELECT COUNT(*) FROM products WHERE name = :product_name";
+    if ($product_id !== null) {
+        $sql .= " AND id != :product_id";
+    }
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':product_name', $product_name);
+    if ($product_id !== null) {
+        $stmt->bindParam(':product_id', $product_id);
+    }
+    $stmt->execute();
+    return $stmt->fetchColumn() > 0;
+}
+
 // Xử lý thêm sản phẩm
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
     $product_name = $_POST['product_name'];
     $price = $_POST['price'];
     $category_id = $_POST['category_id'];
 
-    $sql = "INSERT INTO products (name, price, category_id) VALUES (:product_name, :price, :category_id)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':product_name', $product_name);
-    $stmt->bindParam(':price', $price);
-    $stmt->bindParam(':category_id', $category_id);
+    if (isDuplicateProductName($conn, $product_name)) {
+        echo '<script>alert("Sản phẩm đã tồn tại");</script>';
 
-    if ($stmt->execute()) {
-        header("Location: admin.php");
-        exit();
     } else {
-        echo "Error: " . $stmt->errorInfo()[2];
-    }
-}
+        $sql = "INSERT INTO products (name, price, category_id) VALUES (:product_name, :price, :category_id)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':product_name', $product_name);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':category_id', $category_id);
 
-// Xử lý xóa sản phẩm
-if (isset($_GET['delete'])) {
-    $product_id = $_GET['delete'];
-
-    $sql = "DELETE FROM products WHERE id = :product_id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':product_id', $product_id);
-
-    if ($stmt->execute()) {
-        header("Location: admin.php");
-        exit();
-    } else {
-        echo "Error: " . $stmt->errorInfo()[2];
+        if ($stmt->execute()) {
+            header("Location: admin.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->errorInfo()[2];
+        }
     }
 }
 
@@ -48,11 +52,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_product'])) {
     $price = $_POST['price'];
     $category_id = $_POST['category_id'];
 
-    $sql = "UPDATE products SET name = :product_name, price = :price, category_id = :category_id WHERE id = :product_id";
+    if (isDuplicateProductName($conn, $product_name, $product_id)) {
+        echo '<script>alert("Sản phẩm đã tồn tại");</script>';
+    } else {
+        $sql = "UPDATE products SET name = :product_name, price = :price, category_id = :category_id WHERE id = :product_id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':product_name', $product_name);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':category_id', $category_id);
+        $stmt->bindParam(':product_id', $product_id);
+
+        if ($stmt->execute()) {
+            header("Location: admin.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->errorInfo()[2];
+        }
+    }
+}
+
+// Xử lý xóa sản phẩm
+if (isset($_GET['delete'])) {
+    $product_id = $_GET['delete'];
+
+    $sql = "DELETE FROM products WHERE id = :product_id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':product_name', $product_name);
-    $stmt->bindParam(':price', $price);
-    $stmt->bindParam(':category_id', $category_id);
     $stmt->bindParam(':product_id', $product_id);
 
     if ($stmt->execute()) {
