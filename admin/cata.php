@@ -109,6 +109,7 @@ try {
                 <ul>
                     <li><a href="./admin.php">Bánh</a></li>
                     <li><a href="./cata.php">Loại bánh</a></li>
+                    <li><a href="./user.php">Người dùng</a></li>
                 </ul>
             </nav>
         </aside>
@@ -148,7 +149,7 @@ try {
                         <tr>
                             <th>ID</th>
                             <th>Tên Loại Bánh</th>
-                            <th>Hành Động</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -159,8 +160,8 @@ try {
                                         <td>" . htmlspecialchars($row["id"], ENT_QUOTES, 'UTF-8') . "</td>
                                         <td>" . htmlspecialchars($row["name"], ENT_QUOTES, 'UTF-8') . "</td>
                                         <td>
-                                            <button class='btn' onclick='editCategory(" . $row["id"] . ", \"" . addslashes($row["name"]) . "\")'>Edit</button>
-                                            <a href='cata.php?delete=" . $row["id"] . "' class='btn' onclick='return confirm(\"Bạn có chắc chắn muốn xóa loại bánh này?\")'>Delete</a>
+                                            <button class='btn' onclick='editCategory(" . $row["id"] . ", \"" . addslashes($row["name"]) . "\")'>Sửa</button>
+                                            <a href='cata.php?delete=" . $row["id"] . "' class='btn' onclick='return confirm(\"Bạn có chắc chắn muốn xóa loại bánh này?\")'>Xóa</a>
                                         </td>
                                     </tr>";
                             }
