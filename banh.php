@@ -85,7 +85,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     </div>
                     <div class="btnthemGH">
-                        <input type="button" value="Thêm vào giỏ hàng" onclick="giaohang()">
+                        <input type="button" value="Thêm vào giỏ hàng" onclick="giohang()">
                     </div>
                 </div>
             </div>
