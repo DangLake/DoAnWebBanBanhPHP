@@ -1,0 +1,960 @@
+body {
+    font-family: "Mulish", sans-serif;
+    font-optical-sizing: auto;/* Tự động điều chỉnh kích thước chữ */
+    font-weight: 500;
+    margin: auto;
+    font-style: normal;
+    
+}
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 120px;
+    height: 120px;
+    margin: -76px 0 0 -76px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+/* CSS cho màn hình máy tính */
+@media (min-width: 1281px) {
+    .frm-main {
+        width: 1280px;
+        /* Chiều rộng tối đa cho màn hình máy tính */
+        margin: auto;
+        /* Căn giữa trang web */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .header_menu .icon-bar {
+        display: none;/* Ẩn biểu tượng menu trên màn hình máy tính */
+    }
+}
+/* Thiết kế cho phần đầu trang */
+.header {
+    background-color: #44612d;
+    padding: 10px 0;
+}
+
+.main_header {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;/* Căn giữa phần đầu trang */
+    padding: 0 20px;/* Khoảng cách bên trong trái và phải */
+}
+
+.header_logo {
+    flex: 1;/* Chiếm 1 phần không gian của Flexbox */
+    display: flex;
+    justify-content: center;
+}
+
+.header_logo img {
+    width: 120px;
+}
+
+.header_menu {
+    flex: 3;/* Chiếm 3 phần không gian của Flexbox */
+    justify-content: flex-end;/* Căn phải menu */
+}
+
+.mainmenu {
+    display: flex;
+    list-style: none;
+}
+.mainmenu li a{
+    text-decoration: none;
+    color: white;
+}
+.header_menu li {
+    margin: auto;
+    position: relative;/* Đặt vị trí tương đối */
+}
+
+.menubanh {
+    position: relative;
+    display: inline-block;/* Hiển thị dưới dạng khối nội tuyến nằm trên cùng một dòng 
+    nhưng vẫn có thể thay đổi kích thước chiều rộng và chiều cao.*/
+    margin: auto;
+    cursor: pointer;
+}
+
+.menubanh:hover ul {
+    top: 23px;
+    opacity: 1;
+    visibility: visible;/* Hiển thị danh sách */
+}
+
+.menubanh div {
+    display: inline-block;
+}
+
+.menubanh span {
+    font-size: 14px;
+    color: #1c1c1c;
+    position: relative;
+}
+
+.menubanh ul {
+    background: #f3efef;
+    width: 200px;
+    text-align: left;
+    padding: 5px 0;
+    position: absolute;/* Vị trí tuyệt đối */
+    left: 0;
+    top: 43px;
+    z-index: 9;/* Đặt thứ tự chồng lớp cao nhất giúp đảm bảo rằng 
+    menu con (dropdown menu) của phần tử .menubanh sẽ hiển thị phía trên các phần tử khác có z-index thấp hơn khi chúng được chồng lên nhau. */
+    opacity: 0;
+    align-items: stretch;/* Căng đều các mục */
+    visibility: hidden;/* Ẩn danh sách */
+
+    /*đảm bảo rằng hiệu ứng chuyển tiếp sẽ hoạt động trên tất cả các 
+    trình duyệt phổ biến bằng cách sử dụng các tiền tố (prefix) tương ứng của trình duyệt:*/
+    -webkit-transition: all, 0.3s;/*-webkit-transition: Được sử dụng cho các trình duyệt dựa trên 
+    WebKit như Chrome, Safari, và các trình duyệt di động.*/
+    -moz-transition: all, 0.3s;/*-moz-transition: Được sử dụng cho Firefox.*/
+    -ms-transition: all, 0.3s;/*-ms-transition: Được sử dụng cho Internet Explorer.*/
+    -o-transition: all, 0.3s;/*-o-transition: Được sử dụng cho Opera.*/
+    transition: all, 0.3s;/*transition: Là thuộc tính chuẩn, được sử dụng khi trình duyệt hỗ trợ chuẩn CSS3 mà không cần tiền tố.*/
+}
+
+.menubanh ul li {
+    list-style: none;
+    width: 100%;
+    text-decoration: none;
+    margin: 5px;
+}
+
+.menubanh ul li a {
+    font-size: 14px;
+    color: #373636;
+    padding: 5px 10px;
+    text-decoration: none;
+}
+
+.mainmenu li a:hover {
+    color: #ffd700;
+}
+
+.menubanh ul li a:hover {
+    background-color: #ddd;
+    color: #333;
+}
+
+.menubanh a:hover {
+    color: #ffd700;
+}
+.menubanh a{
+    text-decoration: none;
+    color: white;
+}
+/* Định dạng chung cho form tìm kiếm */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-form input {
+    width: 200px;
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.search-form input:focus {
+    border-color: #44612d; /* Màu viền khi chọn */
+}
+
+.search-form button {
+    padding: 5px 10px;
+    background-color: #44612d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.search-form button i {
+    font-size: 16px;
+}
+
+.search-form button:hover {
+    background-color: #5e925e; /* Màu nút khi rê chuột */
+}
+/* Định dạng chung cho các liên kết icon */
+.icon-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    gap: 5px; /* Khoảng cách giữa biểu tượng và chữ */
+    padding: 5px 10px;
+    transition: color 0.3s ease-in-out;
+}
+
+.icon-link i {
+    font-size: 18px; /* Kích thước icon */
+}
+
+.icon-link:hover {
+    color: #ffd700; /* Màu chữ khi rê chuột */
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 600px) {
+    .icon-link {
+        justify-content: center;
+    }
+}
+
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .search-form input {
+        width: 100%;
+    }
+
+    .search-form button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Responsive cho máy tính bảng */
+@media (min-width: 601px) and (max-width: 1280px) {
+    .search-form input {
+        width: 180px;
+    }
+}
+
+
+.banner {
+    position: relative;/*tương đối*/
+    width: 100%;
+    overflow: hidden;/* Ẩn các phần tràn ra ngoài */
+}
+
+.banner img {
+    width: 1280px;
+    height: 500px;
+}
+
+.banner-text {
+    font-family: 'Pacifico', cursive;/*Nếu phông chữ 'Pacifico' không thể được hiển thị, văn bản sẽ được 
+    hiển thị bằng một phông chữ cursive dự phòng ùy thuộc vào trình duyệt và hệ điều hành*/
+    position: absolute;
+    top: 150px;
+    right: 30px;
+    padding: 20px;
+    text-align: right;
+    border-radius: 5px;
+    max-width: 50%;
+}
+
+.banner-text h1 {
+    font-size: 45px;
+    font-weight: bold;
+    color: #e47c32;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);/* Đổ bóng chữ với các thông số: 
+    độ lệch x 2px, độ lệch y 2px, độ mờ 4px, màu đen với độ mờ 0.8 */
+    /* Tạo viền chữ đậm */
+}
+
+.banner-text h2 {
+    font-size: 35px;
+    font-weight: bold;
+    color: #c3e432;
+    margin-top: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    /* Tạo viền chữ đậm */
+}
+
+.slider-wrapper{
+    position: relative;
+}
+
+.slider-wrapper .slide-button{
+    position: absolute;
+    top: 50%;
+    height: 50px;
+    width: 50px;
+    color: #fff;
+    border: none;
+    outline: none;/* Không có đường viền khi nhấn vào */
+    background-color: #000;
+    font-size: 2.2rem;/* Kích thước phông chữ là 2.2rem 1 rem = 16px.*/
+    cursor: pointer;
+    border-radius: 50%;
+    transform: translateY(-50%);/* Dịch chuyển theo trục Y để căn giữa theo chiều dọc */
+}
+.slider-wrapper .slide-button:hover{
+    background: #444;
+}
+.slider-wrapper .slide-button#prev-slide{
+    left: -20px;/*phần tử .slider-wrapper .slide-button#prev-slide sẽ được di 
+    chuyển về bên trái so với vị trí mặc định một khoảng cách là 20px*/
+}
+.slider-wrapper .slide-button#next-slide{
+    right: -20px;
+}
+.mainslider{
+    width: 100%;
+    margin: auto;
+    padding: 0 10px
+}
+.slider-wrapper .image-list{
+    display: grid;/* Hiển thị dưới dạng lưới */
+    gap: 18px; /* Khoảng cách giữa các phần tử trong lưới là 18px */
+    margin-top: 18px;
+    margin-bottom: 25px;
+    font-size: 0;
+    overflow-x: auto;/* Thanh cuộn ngang tự động hiển thị khi cần */
+    scrollbar-width: none;/* Ẩn thanh cuộn ngang */
+    grid-template-columns: repeat(10,1fr);/* Tạo 10 cột trong lưới với kích thước bằng nhau */
+}
+.slider-wrapper .image-list::-webkit-scrollbar{
+    display: none;/* Ẩn thanh cuộn ngang (trên Chrome, Safari) */
+
+}
+.slider-wrapper .image-list .image-item{
+    width: 325px;
+    height: 500px;
+    object-fit: cover;/* Ảnh sẽ được cắt và căn giữa để bao phủ toàn bộ khung */
+}
+
+.slider-scrollbar{
+    height: 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.slider-scrollbar .scrollbar-track{
+    height: 2px;
+    width: 100%;
+    background: #ccc;
+    position: relative;
+    border-radius: 4px;
+}
+.slider-scrollbar:hover .scrollbar-track{
+    height: 4px;
+
+}
+.slider-scrollbar .scrollbar-thumb:active{
+    cursor: grabbing;/* Con trỏ thay đổi thành bàn tay nắm khi nhấn vào */
+    height: 8px;
+    top: -2px;
+
+}
+
+.slider-scrollbar .scrollbar-thumb{
+    height: 100%;
+    width: 50%;
+    background: #000;
+    position: absolute;
+    border-radius: inherit;/* Bo tròn viền giống như phần tử cha cụ thể là scrollbar-track */
+    cursor: grab;/* Con trỏ thay đổi thành bàn tay xòe khi di chuột qua */
+}
+.slider-scrollbar .scrollbar-thumb::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    bottom: -10px;
+
+}
+
+.gioithieu_main {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    align-items: center;
+    border: 1px #1c1c1c solid;
+    border-radius: 2px;
+
+}
+.flip-box {
+    background-color: transparent;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #f1f1f1;
+    perspective: 1000px;
+  }
+  
+  .flip-box-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  .flip-box:hover .flip-box-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-box-front, .flip-box-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  
+  .flip-box-front {
+    background-color: #bbb;
+    color: black;
+  }
+  
+  .flip-box-back {
+    background-color: dodgerblue;
+    color: white;
+    transform: rotateY(180deg);
+  }
+
+.gioithieu_main img {
+    margin: auto;
+    /* Khoảng cách bên trái */
+    width: 450px;
+    /* Chiều rộng */
+    height: auto;
+    /* Chiều cao tự động theo tỷ lệ */
+    border-radius: 4px;
+}
+
+.gioithieu_main .text {
+    font-family: "Great Vibes", cursive;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+    margin-left: 80px;
+    margin-right: 80px;
+    text-align: center;
+}
+
+.monmoi {
+    text-align: center;
+    /* Căn giữa các thành phần trong .monmoi theo chiều ngang */
+    margin-bottom: 50px;
+}
+
+.monmoi .main h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.monmoi .dsSP {
+    display: flex;
+    justify-content: center;
+    /* Căn giữa các sản phẩm theo chiều ngang */
+    gap: 20px;
+    /* Khoảng cách giữa các sản phẩm */
+    flex-wrap: wrap;
+    /* Cho phép các sản phẩm mới được bao bọc sang hàng mới khi không đủ không gian */
+}
+
+.monmoi .dsSP a {
+    text-decoration: none;
+}
+
+.monmoi .dsSP>div {
+    width: 300px;
+    /* Độ rộng của mỗi sản phẩm */
+    border-radius: 8px;
+    text-align: center;
+}
+
+.monmoi .dsSP>div img {
+    width: 100%;
+    /* Kích thước của hình ảnh sẽ đầy đủ chiều rộng của div cha */
+    height: auto;
+    /* Chiều cao tự động để giữ nguyên tỷ lệ */
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.monmoi .dsSP>div h2 {
+    font-size: 18px;
+    color: green;
+}
+
+.monmoi .dsSP>div p {
+    font-size: 16px;
+    color: #dd0f0f;
+    margin-top: 5px;
+}
+
+.frm-ft {
+    width: 100%;
+    background-color: #05012e;
+    color: #fff;
+}
+
+.footer {
+    font-size: 14px;
+    font-style: italic;
+    justify-content: space-between;
+    /* Căn các phần tử bên trong theo chiều ngang */
+    align-items: center;
+    padding: 20px 0;
+    /* Căn các phần tử bên trong theo chiều dọc */
+}
+
+.ft-up {
+    padding-top: 60px;
+    padding-left: 120px;
+    padding-bottom: 100px;
+    border-bottom: 1px solid rgb(177, 173, 173);
+}
+
+.ft-down {
+    display: flex;
+    justify-content: space-evenly; /* Căn đều các phần tử ngang nhau */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #05012e;
+    color: #fff;
+    padding: 10px 0;
+}
+
+.ft-down p {
+    margin: 0; /* Loại bỏ khoảng cách giữa các phần tử p */
+    padding: 0 10px; /* Thêm khoảng cách giữa các phần tử */
+}
+
+
+.action-buttons {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;/* Xác định thứ tự hiển thị, giá trị càng lớn càng hiển thị phía trên */
+}
+
+.contact-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: blue; /* Màu nền của các biểu tượng */
+    color: white; /* Màu chữ trắng */
+    text-align: center;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-decoration: none;
+    position: relative; /* Để có thể định vị các hiệu ứng trong phần tử a */
+    /*xác định hiệu ứng chuyển đổi khi di chuột qua (hover)*/
+    transition: transform 0.3s, background-color 0.3s; 
+    /*khi phần tử được hover, sẽ có hiệu ứng transform được thực hiện trong 0.3 giây. sẽ có hiệu ứng thay đổi màu nền trong 0.3 giây.*/
+}
+
+.phone-icon {
+    position: relative;
+    background-color: rgb(206, 13, 13); /* Màu đỏ cho biểu tượng điện thoại */
+}
+.phone-number {
+    margin-right: 10px;
+    display: none; /* Ẩn số điện thoại ban đầu */
+    padding: 7px;
+    border-radius: 25px;
+    background-color: rgb(206, 13, 13);
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    left: -110px; /* Điều chỉnh vị trí so với biểu tượng điện thoại */
+    top: 50%;
+    transform: translateY(-50%);/* Dịch chuyển số điện thoại lên trên 50% */
+    white-space: nowrap; /* Để số điện thoại không bị ngắt dòng */
+}
+
+.phone-icon:hover .phone-number {
+    display: inline; /* Hiển thị số điện thoại khi rê chuột vào biểu tượng điện thoại */
+}
+.contact-link:hover {
+    
+    transform: scale(1.1); /* Phóng to khi hover 1.1, điều này có nghĩa là phần tử sẽ được phóng to lên 110% 
+    của kích thước ban đầu của nó khi được hover.*/
+    /*scale(1.1): thay đổi tỷ lệ kích thước của phần tử*/
+    /*transform: thay đổi hình dạng hoặc kích thước của phần tử.*/
+}
+.zalo-icon img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; /* Tạo hình tròn cho biểu tượng Zalo */
+    margin-right: 5px; /* Khoảng cách với các hiệu ứng */
+}
+.animated_zalo.infinite {
+    animation-iteration-count: infinite;
+    /* Áp dụng hiệu ứng vô hạn cho các phần tử có cả hai class "animated_zalo" và "infinite" */
+}
+.pulse_zalo {
+    -webkit-animation-name: pulsed_zalo;
+    animation-name: pulsed_zalo;
+}
+.cmoz-alo-circle-fill {
+    width: 60px;
+    height: 60px;
+    top: -10px;
+    position: absolute;
+     /* Bo tròn viền */
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    border: 2px solid transparent;
+     /* Chuyển đổi mượt mà */
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+    background-color: rgba(209, 229, 250, 0.45);
+    opacity: 0.75;
+    right: -10px;
+}
+.animated_zalo {/*đặt thời gian hoàn thành hiệu ứng là 1 giây và chế độ fill cho hiệu ứng là "both".*/
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+*, *:before, *:after {/*khai báo CSS áp dụng cho tất cả các phần tử và pseudo-elements, đảm bảo tính chính xác của việc tính toán kích thước.*/
+    box-sizing: border-box;
+}
+#div {
+    display: block;
+    unicode-bidi: isolate;/*kiểm soát hướng văn bản và cách văn bản 
+    trong một phần tử tương tác với các phần tử khác trong cùng một dòng*/
+}
+/* Tạo hiệu ứng cho vòng xung quanh biểu tượng Zalo */
+.contact-link::before,
+.contact-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid rgba(9, 123, 245, 0.8);
+    opacity: 0.2;
+    z-index: -1;
+    animation-duration: 1s;/*mỗi chu kỳ của hiệu ứng sẽ kéo dài trong 1 giây.*/
+    animation-iteration-count: infinite;/*hiệu ứng sẽ lặp lại vô hạn*/
+    animation-timing-function: ease-in-out;/*hiệu ứng sẽ bắt đầu chậm, tăng tốc dần, sau đó giảm tốc và kết thúc chậm lại*/
+}
+.phone-icon::before,
+.phone-icon::after{
+    border: 2px solid rgb(206, 13, 13)  ;
+}
+.contact-link::before {
+    animation-name: zoomIn_zalo;
+}
+
+.contact-link::after {
+    animation-name: pulse_zalo;
+}
+@keyframes pulsed_zalo{
+    0% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1.05, 1.05, 1.05);
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+    100% {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
+/*Tại thời điểm 0% của hiệu ứng, tức là khi hiệu ứng bắt đầu, 
+phần tử được thiết lập với kích thước gốc, không thay đổi kích thước từ trạng thái ban đầu.*/
+/*Ở thời điểm 50% của hiệu ứng, phần tử được phóng to một chút so với kích thước gốc. 
+Sử dụng hàm scale3d() để thay đổi kích thước của phần tử theo các chiều x, y, z. 
+Ở đây, kích thước của phần tử tăng lên 1.05 lần so với kích thước ban đầu.*/
+/*Khi đến thời điểm 100% của hiệu ứng, tức là khi hiệu ứng kết thúc, phần tử được trở về kích thước ban đầu, giống như ở thời điểm ban đầu (0%).*/
+@keyframes zoomIn_zalo {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.2;
+    }
+    100% {
+        transform: scale(1.3);
+        opacity: 0.2;
+    }
+}
+
+@keyframes pulse_zalo {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+
+
+
+/* CSS cho màn hình điện thoại */
+@media (max-width: 600px) {
+    .frm-main {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    /* Định dạng cho biểu tượng menu */
+    .icon-bar {
+        display: block;
+        cursor: pointer;
+        padding: 10px;
+        color: #fff;
+        float: right;
+        
+        /* Khoảng cách bên phải từ icon đến menu */
+    }
+
+    /* Định dạng cho menu chính */
+    .mainmenu {
+        display: none;
+        flex-direction: column;/*Các phần tử con bên trong .mainmenu sẽ được sắp xếp theo chiều dọc.*/
+        align-items: center;
+        position: fixed;
+        width: 50%;
+        background-color: rgb(94, 146, 94);
+        padding: 10px 0;
+        z-index: 1;
+        right: 50px;
+    }
+
+    /* Hiển thị menu khi có class 'active' */
+    .mainmenu.active {
+        display: flex;
+    }
+
+    /* Định dạng cho các mục trong menu */
+    .mainmenu li {
+        margin: 10px 0;
+        text-align: center;
+    }
+    .menubanh {
+        padding: 10px;
+    }
+
+    .banner-text {
+        display: none;
+    }
+
+    /* Điều chỉnh kích thước và khoảng cách của các phần tử */
+    .banner img {
+        width: 100%;
+        /* Hiển thị hình ảnh trong banner theo chiều rộng của màn hình */
+        height: auto;
+        /* Chiều cao tự động theo tỷ lệ */
+        min-height: fit-content;
+    }
+    .mainslider{
+        min-height: fit-content;
+    }
+    .slider-wrapper .slide-button{
+        display: none!important;/*ưu tiên áp dụng*/
+    }
+    .slider-wrapper .image-list{
+        gap:10px;
+        margin-bottom: 15px;
+    }
+    .slider-wrapper .image-list .image-item{
+        width: 280px;
+        height: 380px;
+    }
+    .slider-scrollbar{
+        min-height: fit-content;
+    }
+    .slider-scrollbar .scrollbar-track{
+        min-height: fit-content;
+    }
+    .slider-scrollbar .scrollbar-thumb{
+        width: 20%;
+        min-height: fit-content;
+    }
+    .gioithieu_main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Căn giữa theo chiều ngang */
+        justify-content: center;
+        /* Căn giữa theo chiều dọc */
+        margin-top: 30px;
+        border: 1px #1c1c1c solid;
+        border-radius: 2px;
+    }
+
+    .gioithieu_main img {
+        width: 100%;
+        min-height: fit-content;
+
+    }
+
+    .gioithieu_main .text {
+        font-size: 18px;
+        /* Giảm kích thước chữ */
+        margin: 10px;
+        /* Khoảng cách của văn bản */
+        text-align: center;
+        /* Căn giữa văn bản */
+    }
+    .monmoi .dsSP>div {
+        width: 40%;
+        /* Độ rộng của mỗi sản phẩm là 90% của màn hình */
+        margin-bottom: 20px;
+        /* Khoảng cách dưới của mỗi sản phẩm */
+    }
+
+    .monmoi .dsSP>div img {
+        width: 100%;
+        /* Hiển thị hình ảnh theo chiều rộng của div cha */
+        height: auto;
+        /* Chiều cao tự động theo tỷ lệ */
+    }
+
+    .monmoi .dsSP>div h2 {
+        font-size: 16px;
+        /* Giảm kích thước tiêu đề */
+    }
+
+    .monmoi .dsSP>div p {
+        font-size: 14px;
+        /* Giảm kích thước văn bản */
+    }
+
+    .ft-up,.ft-down {
+        display: none;
+    }
+}
+
+/* CSS cho máy tính bảng */
+@media (min-width: 601px) and (max-width: 1280px) {
+    .frm-main {
+        width: 100%;
+        max-width: 1280px;
+        margin: auto;
+        /* Giới hạn chiều rộng của trang web trên máy tính bảng */
+    }
+
+    .header_menu .icon-bar {
+        display: none;
+    }
+    .mainslider{
+        min-height: fit-content;
+    }
+    .slider-wrapper .slide-button{
+        display: none!important;
+    }
+    .slider-wrapper .image-list{
+        gap:10px;
+        margin-bottom: 15px;
+    }
+    .slider-wrapper .image-list .image-item{
+        width: 280px;
+        height: 380px;
+    }
+    .slider-scrollbar{
+        min-height: fit-content;
+    }
+    .slider-scrollbar .scrollbar-track{
+        min-height: fit-content;
+    }
+    .slider-scrollbar .scrollbar-thumb{
+        width: 20%;
+        min-height: fit-content;
+    }
+    .banner-text {
+        display: none;
+    }
+
+    .banner img {
+        width: 100%;
+        /* Hiển thị hình ảnh trong banner theo chiều rộng của màn hình */
+        height: auto;
+        /* Chiều cao tự động theo tỷ lệ */
+        min-height: fit-content;
+    }
+
+    /* Điều chỉnh kích thước và khoảng cách của các phần tử */
+    .gioithieu_main img {
+        width: 300px;
+        min-height: fit-content;
+    }
+
+    .gioithieu_main .text {
+        font-size: 30px;
+        /* Cỡ chữ trở lại ban đầu */
+        margin: 20px 80px;
+        /* Khoảng cách ở trái và phải lớn hơn */
+        text-align: center;
+        /* Căn giữa văn bản */
+    }
+
+    .monmoi .dsSP>div {
+        width: 300px;
+        /* Độ rộng của mỗi sản phẩm */
+        margin-bottom: 20px;
+        /* Khoảng cách dưới của mỗi sản phẩm */
+    }
+
+    .monmoi .dsSP>div img {
+        width: 100%;
+        /* Hiển thị hình ảnh theo chiều rộng của div cha */
+        height: auto;
+        /* Chiều cao tự động theo tỷ lệ */
+    }
+
+}

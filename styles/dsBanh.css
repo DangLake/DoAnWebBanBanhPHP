@@ -1,0 +1,47 @@
+.monmoi {
+    text-align: center;
+    /* Căn giữa các thành phần trong .monmoi theo chiều ngang */
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.monmoi .dsSP {
+    display: flex;
+    justify-content: center;
+    /* Căn giữa các sản phẩm theo chiều ngang */
+    gap: 20px;
+    /* Khoảng cách giữa các sản phẩm */
+    flex-wrap: wrap;
+    /* Cho phép các sản phẩm mới được bao bọc sang hàng mới khi không đủ không gian */
+}
+
+.monmoi .dsSP a {
+    text-decoration: none;
+}
+
+.monmoi .dsSP>div {
+    width: 300px;
+    /* Độ rộng của mỗi sản phẩm */
+    border-radius: 8px;
+    text-align: center;
+}
+
+.monmoi .dsSP>div img {
+    width: 100%;
+    /* Kích thước của hình ảnh sẽ đầy đủ chiều rộng của div cha */
+    height: auto;
+    /* Chiều cao tự động để giữ nguyên tỷ lệ */
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.monmoi .dsSP>div h2 {
+    font-size: 18px;
+    color: green;
+}
+
+.monmoi .dsSP>div p {
+    font-size: 16px;
+    color: #dd0f0f;
+    margin-top: 5px;
+}

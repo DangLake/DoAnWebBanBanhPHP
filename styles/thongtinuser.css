@@ -1,0 +1,127 @@
+
+/* Container chính */
+.thongtin {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Tiêu đề */
+.thongtin h2 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Nhóm form */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Label */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Input */
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    background-color: #fff;
+    outline: none;
+}
+
+/* Định dạng cho input khi không có giá trị */
+.form-group input:placeholder-shown {
+    background-color: #fff;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Hiệu ứng hover cho button */
+button:active {
+    background-color: #004085;
+}
+/* Nút đăng xuất */
+.logout-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px; /* Khoảng cách từ form trước đó */
+}
+
+.logout-btn:hover {
+    background-color: #c82333; /* Màu đỏ đậm khi hover */
+}
+
+.logout-btn:active {
+    background-color: #bd2130; /* Màu đỏ khi bấm */
+}
+
+
+/* Responsive: Điều chỉnh lại kích thước trên thiết bị di động */
+@media (max-width: 480px) {
+    .thongtin {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    .thongtin h2 {
+        font-size: 20px;
+    }
+
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .form-group input {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
