@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../styles/main.css">
+
 <header class="header">
     <div class="main_header">
         <div class="header_logo">

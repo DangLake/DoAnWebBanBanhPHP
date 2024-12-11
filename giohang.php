@@ -89,8 +89,8 @@ $total_price = array_sum(array_column($cart_items, 'total'));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giỏ hàng</title>
-    <link rel="stylesheet" href="./styles/giohang.css">
-    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="styles/giohang.css">
+    <link rel="stylesheet" href="styles/main.css">
     <script src="scripts/giohang.js"></script>
 </head>
 
@@ -209,5 +209,28 @@ $total_price = array_sum(array_column($cart_items, 'total'));
         });
     </script>
 </body>
+<style>
+    .actions {
+    text-align: right;
+    margin-top: 20px;
+}
+    .btn-submit-order {
+        background-color: #ff5733;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        text-transform: uppercase;
+        box-sizing: border-box;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-submit-order:hover {
+        background-color: #ff3d00;
+    }
+</style>
 
 </html>
