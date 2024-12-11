@@ -91,6 +91,7 @@ $total_price = array_sum(array_column($cart_items, 'total'));
     <title>Giỏ hàng</title>
     <link rel="stylesheet" href="./styles/giohang.css">
     <link rel="stylesheet" href="./styles/main.css">
+    <script src="scripts/giohang.js"></script>
 </head>
 
 <body>
@@ -137,6 +138,14 @@ $total_price = array_sum(array_column($cart_items, 'total'));
                         </tr>
                     </tfoot>
                 </table>
+                <div class="actions">
+                    <form action="giaohang.php" method="POST">
+                        <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+                        <input type="hidden" name="cart_items" value="<?php echo htmlspecialchars(json_encode($cart_items)); ?>">
+                        <button type="submit" class="btn-submit-order" >Đặt hàng</button>
+                    </form>
+                </div>
+
             <?php endif; ?>
         </div>
     </div>

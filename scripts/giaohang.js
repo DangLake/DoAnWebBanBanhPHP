@@ -84,9 +84,3 @@ function validateEmail(email) {
     var emailRegex = /\S+@\S+\.\S+/;
     return emailRegex.test(email);
 }
-//     : Dấu gạch chéo mở và đóng để bắt đầu và kết thúc biểu thức chính quy.
-//      \S+: Ký tự \S đại diện cho bất kỳ ký tự nào không phải là khoảng trắng. Dấu + có nghĩa là phải có ít nhất một hoặc nhiều ký tự không phải khoảng trắng trước ký tự @.
-//       @: Dấu @ là bắt buộc trong mọi địa chỉ email.
-//      \S+: Tương tự như trên, yêu cầu ít nhất một hoặc nhiều ký tự không phải khoảng trắng sau ký tự @ và trước dấu ..
-//      .: Dấu chấm . phải có trong email (phân tách tên miền và phần mở rộng tên miền).
-//       \S+: Yêu cầu ít nhất một hoặc nhiều ký tự không phải khoảng trắng sau dấu chấm.
