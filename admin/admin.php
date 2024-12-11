@@ -197,7 +197,7 @@ $category_stmt = $conn->query($category_sql);
                              echo "<tr>
                                         <td>{$row['id']}</td>
                                         <td>{$row['product_name']}</td>
-                                        <td>{$row['price']} VNĐ</td>
+                                        <td>{$row['price']} đ</td>
                                         <td>{$row['category_name']}</td>
                                      <td>
                              <button class='btn' onclick='editProduct({$row["id"]}, \"" . addslashes($row["product_name"]) . "\", {$row["price"]}, {$row["category_id"]})'>Sửa</button>

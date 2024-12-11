@@ -132,43 +132,4 @@ $total_price = array_sum(array_column($cart_items, 'total'));
     <?php include('./includes/footer.php') ?>
 </body>
 
-<style>
-    .actions {
-        text-align: right;
-        margin-top: 20px;
-    }
-
-    .btn-submit-order {
-        background-color: #ff5733;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 20px;
-        text-transform: uppercase;
-        box-sizing: border-box;
-        display: inline-block;
-        text-align: center;
-    }
-
-    .btn-submit-order:hover {
-        background-color: #ff3d00;
-    }
-
-    .btn-update-cart {
-        background-color: #28a745;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    .btn-update-cart:hover {
-        background-color: #218838;
-    }
-</style>
-
 </html>
