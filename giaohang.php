@@ -1,23 +1,34 @@
 <?php
 session_start();
+
 include_once './config.php';
 include('./includes/link.php');
-// Nhận dữ liệu từ POST
-$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
-$cart_items = isset($_POST['cart_items']) ? json_decode($_POST['cart_items'], true) : [];
+// Kiểm tra khi form được gửi
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Nhận dữ liệu từ POST
+    $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
+    $cart_items = isset($_POST['cart_items']) ? json_decode($_POST['cart_items'], true) : [];
+    $full_name = isset($_POST['full_name']) ? $_POST['full_name'] : null;
+    $phone = isset($_POST['phone']) ? $_POST['phone'] : null;
+    $email = isset($_POST['email']) ? $_POST['email'] : null;
+    $city = isset($_POST['city']) ? $_POST['city'] : null;
+    $district = isset($_POST['district']) ? $_POST['district'] : null;
+    $address = isset($_POST['address']) ? $_POST['address'] : null;
 
-// Kiểm tra dữ liệu
-if (!$user_id || empty($cart_items)) {
-    die("Dữ liệu không hợp lệ!");
-}
+    if (empty($cart_items)) {
+        echo "<script>
+                alert('Giỏ hàng trống');
+            </script>";
+    }
 
-// Tính toán tổng giá trị đơn hàng
-$subtotal = 0;
-foreach ($cart_items as $item) {
-    $subtotal += $item['quantity'] * $item['price'];
+    // Tính toán tổng giá trị đơn hàng
+    $subtotal = 0;
+    foreach ($cart_items as $item) {
+        $subtotal += $item['quantity'] * $item['price'];
+    }
+    $shipping_fee = 30000; // Phí giao hàng cố định
+    $total = $subtotal + $shipping_fee;
 }
-$shipping_fee = 30000; // Phí giao hàng cố định
-$total = $subtotal + $shipping_fee;
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +49,7 @@ $total = $subtotal + $shipping_fee;
         <section class="checkout">
             <div class="container">
                 <h2>THÔNG TIN THANH TOÁN</h2>
-                <form id="checkoutForm" method="POST" action="">
+                <form id="checkoutForm" method="POST" action="send_mail.php">
                     <div class="row">
                         <div class="checkout__input">
                             <p>Họ và tên<span>*</span></p>
@@ -77,11 +88,11 @@ $total = $subtotal + $shipping_fee;
                         </thead>
                         <tbody>
                             <?php foreach ($cart_items as $item): ?>
-                            <tr>
-                                <td><?php echo htmlspecialchars($item['name']); ?></td>
-                                <td><?php echo htmlspecialchars($item['quantity']); ?></td>
-                                <td><?php echo number_format($item['quantity'] * $item['price'], 0, ',', '.'); ?> đ</td>
-                            </tr>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($item['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($item['quantity']); ?></td>
+                                    <td><?php echo number_format($item['quantity'] * $item['price'], 0, ',', '.'); ?> đ</td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -102,6 +113,7 @@ $total = $subtotal + $shipping_fee;
                     </div>
 
                     <div class="checkout__order">
+                        <input type="hidden" name="cart_items" value="<?php echo htmlspecialchars(json_encode($cart_items)); ?>">
                         <button type="submit" class="site-btn">ĐẶT HÀNG</button>
                     </div>
                 </form>
