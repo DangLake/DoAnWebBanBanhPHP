@@ -114,9 +114,9 @@ if (isset($_POST['add_to_cart'])) {
                         <form action="" method="POST">
                             <div class="quantity">
                                 <div class="pro-qty">
-                                    <button class="qty-btn minus" onclick="giamsl()">-</button>
+                                    <button type="button" class="qty-btn minus" onclick="giamsl()">-</button>
                                     <input type="text" value="1" id="quantity" name="quantity" readonly>
-                                    <button class="qty-btn plus" onclick="tangsl()">+</button>
+                                    <button type="button" class="qty-btn plus" onclick="tangsl()">+</button>
                                 </div>
                             </div>
                             <div class="btnthemGH">
