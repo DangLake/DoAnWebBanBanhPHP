@@ -1,8 +1,8 @@
 <?php
 session_start();
+
 require('config.php'); // Kết nối cơ sở dữ liệu
 include('./includes/link.php');
-
 // Kiểm tra nếu người dùng chưa đăng nhập
 if (!isset($_SESSION['user_id'])) {
     echo '<div style="min-height: 500px; display: flex; justify-content: center; align-items: center; text-align: center;">
@@ -98,14 +98,14 @@ $total_price = array_sum(array_column($cart_items, 'total'));
                                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                                     <td><?php echo number_format($item['price'], 0, ',', '.'); ?> đ</td>
                                     <td>
-                                        <input type="number" name="quantity[<?php echo $item['cart_id']; ?>]" 
-                                               value="<?php echo $item['quantity']; ?>" 
-                                               min="1" style="width: 50px;">
+                                        <input type="number" name="quantity[<?php echo $item['cart_id']; ?>]"
+                                            value="<?php echo $item['quantity']; ?>"
+                                            min="1" style="width: 50px;">
                                     </td>
                                     <td><?php echo number_format($item['total'], 0, ',', '.'); ?> đ</td>
                                     <td>
-                                        <a style="text-decoration: none;color:red" href="giohang.php?delete=<?php echo $item['cart_id']; ?>" 
-                                           onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">X</a>
+                                        <a style="text-decoration: none;color:red" href="giohang.php?delete=<?php echo $item['cart_id']; ?>"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">X</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -117,7 +117,9 @@ $total_price = array_sum(array_column($cart_items, 'total'));
                             </tr>
                         </tfoot>
                     </table>
-                    <button type="submit" name="update_cart" class="btn-update-cart">Cập nhật giỏ hàng</button>
+                    <div class="actions">
+                        <button type="submit" name="update_cart" class="btn-update-cart">Cập nhật giỏ hàng</button>
+                    </div>
                 </form>
                 <div class="actions">
                     <form action="giaohang.php" method="POST">
@@ -131,5 +133,49 @@ $total_price = array_sum(array_column($cart_items, 'total'));
     </div>
     <?php include('./includes/footer.php') ?>
 </body>
+<style>
+    .actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .btn-submit-order {
+        background-color: #ff5733;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 20px;
+        text-transform: uppercase;
+        box-sizing: border-box;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-submit-order:hover {
+        background-color: #ff3d00;
+    }
+
+    .btn-update-cart {
+        background-color: #28a745;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        text-transform: uppercase;
+        box-sizing: border-box;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .btn-update-cart:hover {
+        background-color: #218838;
+    }
+</style>
 
 </html>

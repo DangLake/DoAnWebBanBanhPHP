@@ -72,12 +72,7 @@ function validateForm1() {
     } else {
         document.getElementById('diachiErrorMessage').textContent = "";
     }
-
-    // Nếu hợp lệ, thông báo thành công và chuyển hướng về trang chủ
-    if (isValid) {
-        alert('Đặt hàng thành công!');
-        window.location.href = 'main.html';// chuyển hướng về trang chủ
-    }
+    return isValid;
 }
 
 function validateEmail(email) {
