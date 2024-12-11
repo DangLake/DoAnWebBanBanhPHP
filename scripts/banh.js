@@ -48,12 +48,14 @@ setInterval(function() {//Đặt khoảng thời gian 4000ms (4 giây) để t�
 
 // tangsl, giamsl: Các hàm để tăng hoặc giảm số lượng sản phẩm.
 function tangsl() {
+    event.preventDefault()
     var quantityInput = document.getElementById('quantity');//Lấy phần tử có id "quantity".
     var currentValue = parseInt(quantityInput.value);//Lấy giá trị hiện tại của ô nhập liệu và chuyển đổi nó thành số nguyên.
     quantityInput.value = currentValue + 1;//Tăng giá trị hiện tại thêm 1 và cập nhật lại ô nhập liệu.
 }
 
 function giamsl() {
+    event.preventDefault()
     var quantityInput = document.getElementById('quantity');
     var currentValue = parseInt(quantityInput.value);
     if (currentValue > 1) {
