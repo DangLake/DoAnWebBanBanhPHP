@@ -20,7 +20,6 @@ function isDuplicateProductName($conn, $product_name, $product_id = null) {
     return $stmt->fetchColumn() > 0;
 }
 
-// Xử lý thêm sản phẩm
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
     $product_name = $_POST['product_name'];
     $price = $_POST['price'];
@@ -28,15 +27,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
 
     if (isDuplicateProductName($conn, $product_name)) {
         echo '<script>alert("Sản phẩm đã tồn tại");</script>';
-
     } else {
+        // Thêm sản phẩm vào bảng products
         $sql = "INSERT INTO products (name, price, category_id) VALUES (:product_name, :price, :category_id)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':product_name', $product_name);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':category_id', $category_id);
-
+        
         if ($stmt->execute()) {
+            $product_id = $conn->lastInsertId(); // Lấy ID của sản phẩm vừa thêm vào
+            
+            // Xử lý ảnh tải lên
+            if (isset($_FILES['images']) && $_FILES['images']['error'][0] == 0) {
+                $uploads_dir = './uploads/products/';
+                if (!is_dir($uploads_dir)) {
+                    mkdir($uploads_dir, 0777, true);
+                }
+
+                foreach ($_FILES['images']['name'] as $key => $image_name) {
+                    $image_tmp = $_FILES['images']['tmp_name'][$key];
+                    $image_path = $uploads_dir . basename($image_name);
+
+                    // Kiểm tra nếu ảnh có bị lỗi khi tải lên
+                    if ($_FILES['images']['error'][$key] == 0) {
+                        move_uploaded_file($image_tmp, $image_path);
+
+                        // Lưu ảnh vào bảng product_images
+                        $sql = "INSERT INTO product_images (product_id, image) VALUES (:product_id, :image)";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bindParam(':product_id', $product_id);
+                        $stmt->bindParam(':image', $image_path);
+                        $stmt->execute();
+                    } else {
+                        echo "Error uploading image: " . $_FILES['images']['error'][$key];
+                    }
+                }
+            }
+
             header("Location: admin.php");
             exit();
         } else {
@@ -44,6 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
         }
     }
 }
+
+
 
 // Xử lý chỉnh sửa sản phẩm
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_product'])) {
@@ -75,6 +105,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_product'])) {
 if (isset($_GET['delete'])) {
     $product_id = $_GET['delete'];
 
+    // Lấy các ảnh liên quan đến sản phẩm
+    $sql = "SELECT image FROM product_images WHERE product_id = :product_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':product_id', $product_id);
+    $stmt->execute();
+
+    // Xóa ảnh trong thư mục
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $image_path = $row['image'];
+        if (file_exists($image_path)) {
+            unlink($image_path); // Xóa ảnh
+        }
+    }
+
+    // Xóa các bản ghi ảnh trong bảng product_images
+    $sql = "DELETE FROM product_images WHERE product_id = :product_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':product_id', $product_id);
+    $stmt->execute();
+
+    // Xóa sản phẩm trong bảng products
     $sql = "DELETE FROM products WHERE id = :product_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':product_id', $product_id);
@@ -86,6 +137,7 @@ if (isset($_GET['delete'])) {
         echo "Error: " . $stmt->errorInfo()[2];
     }
 }
+
 
 // Phân trang
 $products_per_page = 7; // Số sản phẩm trên mỗi trang
@@ -140,7 +192,7 @@ $category_stmt = $conn->query($category_sql);
                 <h1>Quản Lý Bánh</h1>
 
                 <!-- Form thêm sản phẩm -->
-                <form action="admin.php" method="POST">
+                <form action="admin.php" method="POST" enctype="multipart/form-data">
                     <label for="product_name">Tên bánh:</label>
                     <input type="text" id="product_name" name="product_name" required>
 
@@ -155,6 +207,8 @@ $category_stmt = $conn->query($category_sql);
                         }
                         ?>
                     </select>
+                    <label for="images">Ảnh sản phẩm:</label>
+                    <input type="file" name="images[]" id="images" multiple>
                     <button type="submit" name="add_product" class="btn">Thêm Sản Phẩm</button>
                 </form>
 
@@ -179,7 +233,6 @@ $category_stmt = $conn->query($category_sql);
                         <button type="submit" name="edit_product" class="btn">Cập Nhật</button>
                     </form>
                 </div>
-
                 <h2>Danh Sách Các Sản Phẩm</h2>
                 <table>
                     <thead>
