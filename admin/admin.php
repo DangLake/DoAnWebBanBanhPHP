@@ -219,7 +219,7 @@ $category_stmt = $conn->query($category_sql);
                     <button type="submit" name="add_product" class="btn">Thêm</button>
                 </form>
 
-                <!-- Form chỉnh sửa sản phẩm -->
+                <!-- Form chỉnh sửa sản phẩm -------->
                 <div id="edit-form" style="display:none;">
                     <h3>Chỉnh Sửa Sản Phẩm</h3>
                     <form action="admin.php" method="POST">
