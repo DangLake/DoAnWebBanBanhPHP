@@ -6,7 +6,8 @@ require('../config.php');
 $conn = connectDatabase();
 
 // Hàm kiểm tra trùng tên sản phẩm
-function isDuplicateProductName($conn, $product_name, $product_id = null) {
+function isDuplicateProductName($conn, $product_name, $product_id = null)
+{
     $sql = "SELECT COUNT(*) FROM products WHERE name = :product_name";
     if ($product_id !== null) {
         $sql .= " AND id != :product_id";
@@ -24,16 +25,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
     $product_name = $_POST['product_name'];
     $price = $_POST['price'];
     $category_id = $_POST['category_id'];
+    $description = $_POST['description']; // Lấy dữ liệu từ form
 
     if (isDuplicateProductName($conn, $product_name)) {
         echo '<script>alert("Sản phẩm đã tồn tại");</script>';
     } else {
         // Thêm sản phẩm vào bảng products
-        $sql = "INSERT INTO products (name, price, category_id) VALUES (:product_name, :price, :category_id)";
+        $sql = "INSERT INTO products (name, price, category_id, description) 
+                VALUES (:product_name, :price, :category_id, :description)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':product_name', $product_name);
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':category_id', $category_id);
+        $stmt->bindParam(':description', $description); // Gắn giá trị cho description
         
         if ($stmt->execute()) {
             $product_id = $conn->lastInsertId(); // Lấy ID của sản phẩm vừa thêm vào
@@ -49,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
                     $image_tmp = $_FILES['images']['tmp_name'][$key];
                     $image_path = $uploads_dir . basename($image_name);
 
-                    // Kiểm tra nếu ảnh có bị lỗi khi tải lên
                     if ($_FILES['images']['error'][$key] == 0) {
                         move_uploaded_file($image_tmp, $image_path);
 
@@ -75,13 +78,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
 
 
 
+
 // Xử lý chỉnh sửa sản phẩm
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_product'])) {
     $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
     $price = $_POST['price'];
     $category_id = $_POST['category_id'];
-
+    $description = $_POST['description'];
     if (isDuplicateProductName($conn, $product_name, $product_id)) {
         echo '<script>alert("Sản phẩm đã tồn tại");</script>';
     } else {
@@ -91,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_product'])) {
         $stmt->bindParam(':price', $price);
         $stmt->bindParam(':category_id', $category_id);
         $stmt->bindParam(':product_id', $product_id);
-
+        $stmt->bindParam(':description', $description);
         if ($stmt->execute()) {
             header("Location: admin.php");
             exit();
@@ -168,6 +172,7 @@ $category_stmt = $conn->query($category_sql);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -175,6 +180,7 @@ $category_stmt = $conn->query($category_sql);
     <script src="./admin.js"></script>
     <link rel="stylesheet" href="./admin.css">
 </head>
+
 <body>
     <div class="admin-container">
         <aside class="sidebar">
@@ -198,7 +204,8 @@ $category_stmt = $conn->query($category_sql);
 
                     <label for="price">Giá:</label>
                     <input type="number" id="price" name="price" required>
-
+                    <label for="description">Mô tả:</label>
+                    <input type="text" id="description" name="description" required>
                     <label for="category_id">Loại bánh:</label>
                     <select name="category_id" id="category_id">
                         <?php
@@ -209,7 +216,7 @@ $category_stmt = $conn->query($category_sql);
                     </select>
                     <label for="images">Ảnh sản phẩm:</label>
                     <input type="file" name="images[]" id="images" multiple>
-                    <button type="submit" name="add_product" class="btn">Thêm Sản Phẩm</button>
+                    <button type="submit" name="add_product" class="btn">Thêm</button>
                 </form>
 
                 <!-- Form chỉnh sửa sản phẩm -->
@@ -245,9 +252,9 @@ $category_stmt = $conn->query($category_sql);
                         </tr>
                     </thead>
                     <tbody>
-                         <?php
-                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                             echo "<tr>
+                        <?php
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<tr>
                                         <td>{$row['id']}</td>
                                         <td>{$row['product_name']}</td>
                                         <td>{$row['price']} đ</td>
@@ -257,8 +264,8 @@ $category_stmt = $conn->query($category_sql);
                             <a href='admin.php?delete={$row["id"]}' class='btn' onclick='return confirm(\"Bạn có chắc chắn muốn xóa sản phẩm này?\")'>Xóa</a>
             </td>
         </tr>";
-    }
-    ?>
+                        }
+                        ?>
                     </tbody>
 
                 </table>
@@ -282,4 +289,5 @@ $category_stmt = $conn->query($category_sql);
     </div>
 
 </body>
+
 </html>
