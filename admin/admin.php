@@ -44,28 +44,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_product'])) {
             
             // Xử lý ảnh tải lên
             if (isset($_FILES['images']) && $_FILES['images']['error'][0] == 0) {
-                $uploads_dir = './uploads/products/';
+                $uploads_dir = __DIR__ . '/../images/';
                 if (!is_dir($uploads_dir)) {
                     mkdir($uploads_dir, 0777, true);
                 }
 
                 foreach ($_FILES['images']['name'] as $key => $image_name) {
                     $image_tmp = $_FILES['images']['tmp_name'][$key];
-                    $image_path = $uploads_dir . basename($image_name);
-
+                    $image_relative_path = 'images/' . basename($image_name); // Đường dẫn tương đối
+                    $image_absolute_path = __DIR__ . '/../' . $image_relative_path; // Đường dẫn tuyệt đối
+                
                     if ($_FILES['images']['error'][$key] == 0) {
-                        move_uploaded_file($image_tmp, $image_path);
-
-                        // Lưu ảnh vào bảng product_images
-                        $sql = "INSERT INTO product_images (product_id, image) VALUES (:product_id, :image)";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bindParam(':product_id', $product_id);
-                        $stmt->bindParam(':image', $image_path);
-                        $stmt->execute();
+                        // Di chuyển file ảnh từ tạm vào thư mục đích
+                        if (move_uploaded_file($image_tmp, $image_absolute_path)) {
+                            // Lưu đường dẫn tương đối vào cơ sở dữ liệu
+                            $sql = "INSERT INTO product_images (product_id, image) VALUES (:product_id, :image)";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bindParam(':product_id', $product_id);
+                            $stmt->bindParam(':image', $image_relative_path); // Lưu đường dẫn tương đối
+                            $stmt->execute();
+                        } else {
+                            echo "Error moving uploaded file.";
+                        }
                     } else {
                         echo "Error uploading image: " . $_FILES['images']['error'][$key];
                     }
-                }
+                }                
             }
 
             header("Location: admin.php");
@@ -106,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_product'])) {
 }
 
 // Xử lý xóa sản phẩm
+// Xử lý xóa sản phẩm
 if (isset($_GET['delete'])) {
     $product_id = $_GET['delete'];
 
@@ -117,9 +122,17 @@ if (isset($_GET['delete'])) {
 
     // Xóa ảnh trong thư mục
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $image_path = $row['image'];
+        $image_path = __DIR__ . '/../' . $row['image'];  // Đảm bảo đường dẫn tuyệt đối
+
+        // Kiểm tra nếu ảnh tồn tại và xóa
         if (file_exists($image_path)) {
-            unlink($image_path); // Xóa ảnh
+            if (unlink($image_path)) {
+                echo "Xóa ảnh thành công: $image_path<br>";
+            } else {
+                echo "Không thể xóa ảnh: $image_path<br>";
+            }
+        } else {
+            echo "Ảnh không tồn tại: $image_path<br>";
         }
     }
 
@@ -141,6 +154,7 @@ if (isset($_GET['delete'])) {
         echo "Error: " . $stmt->errorInfo()[2];
     }
 }
+
 
 
 // Phân trang
